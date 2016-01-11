@@ -14,8 +14,9 @@
 #include <errno.h>
 #include <unistd.h>
 #include "../../pubclass/Trace.h"
+#include "../../pubclass/argOptionsMgr.h"
 int client_main(int argc, char * argv[]){
-    show_info();
+    show_info("");
     struct addrinfo *ailist, *aip;
     struct addrinfo hint;
     int sockfd, err;
@@ -51,17 +52,23 @@ int client_main(int argc, char * argv[]){
 
 
 void print_uptime(int sockfd){
+	show_info("");
     int n;
     char buf[BUFLEN];
 
-    while((n = recv(sockfd, buf, BUFLEN, 0))> 0)
-        write(STDOUT_FILENO, buf, n);
+    while((n = recv(sockfd, buf, BUFLEN, 0))> 0){
+        int ret = write(STDOUT_FILENO, buf, n);
+	if (ret <= 0){
+		return;
+	}
+    }
     log_trace(1, "recv success?");
     if (n < 0)
         log_trace(1, "recv error");
 }
 
 int connect_retry(int domain, int type, int protocol, const struct sockaddr *addr, socklen_t alen){
+	show_info("");
     int numsec, fd;
     for (numsec = 1; numsec <= MAXSLEEP; numsec <<= 1){
         if ((fd = socket(domain, type, protocol)) < 0)

@@ -8,16 +8,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string>
+#include <string.h>
 #include "Trace.h"
-void CTrace::trace(int lev, const char * fmt, ...){
+using std::string;
+void CTrace::trace(int lev, const char * fmt, ...) {
     char * slev = getenv("LOG_TRACE_LEVEL");
-    int ilev = atoi(slev);
-    if (ilev > lev ) return ;
+    int ilev;
+
+    if (slev == NULL) {
+        printf("CTrace.trace()::warning:LOG_TRACE_LEVEL is not exproted\n");
+        ilev = 0;
+
+    } else {
+        ilev = atoi(slev);
+    }
+
+    if (ilev > lev) {
+        return ;
+    }
+
     va_list va_ptr;
     va_start(va_ptr, fmt);
     char s[100];
     vsprintf(s, fmt, va_ptr);
-    printf(s);
-    printf("\n");
+
+    if (strcmp(_className, "") == 0) {
+        sprintf(s, "%s::%s", _funcName, va_ptr);
+    } else {
+        sprintf(s, "%s.%s::%s", _className, _funcName, va_ptr);
+    }
+
+    printf("%s\n", s);
     va_end(va_ptr);
 }

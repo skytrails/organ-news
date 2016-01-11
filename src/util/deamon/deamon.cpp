@@ -84,6 +84,7 @@ int z_deamon() {
 
 //守护进程
 extern "C" void deamonize(const char *cmd){
+    show_info("");
     int i, fd0, fd1, fd2;
     pid_t pid;
     struct rlimit rl;

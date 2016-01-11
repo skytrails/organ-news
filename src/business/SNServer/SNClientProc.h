@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "../../pubclass/argOptionsMgr.h"
 
 class SNCProc{
 public:
@@ -37,13 +38,6 @@ public:
 
 
 #endif
-
-
-
-
-
-
-
 
 
 

@@ -8,7 +8,7 @@
 #include <errno.h>
 
 #include "SNClientProc.h"
-#include "pubclass/Trace.h"
+#include "../../pubclass/Trace.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -35,7 +35,7 @@ using namespace std;
 
 //初始化为守护进程
 int SNCProc::init(){
-    show_info();
+    show_info("SNCProc");
     pid_t pid;
     pid = fork();
     if (pid < 0){
@@ -71,6 +71,11 @@ int SNCProc::init(){
 
     return 1;
 }
+/**
+ * @brief  SNCProc:Process
+ *
+ * @return 
+ */
 int SNCProc::Process(){
   int sockfd;
   struct sockaddr_in servaddr;
@@ -85,9 +90,13 @@ int SNCProc::Process(){
 }
 
 void SNCProc::str_cli(FILE *fp, int sockfd){
+	show_info("");
   char sendline[MAXLINE], recvline[MAXLINE];
   while(fgets(sendline, MAXLINE, fp) != NULL){
-    write(sockfd, sendline, strlen(sendline));
+    int ret = write(sockfd, sendline, strlen(sendline));
+    if (ret == 0){
+	    log_trace(1, "write empty");
+    }
     if (readline(sockfd, recvline, MAXLINE) == 0){
       printf("server failed");
     }

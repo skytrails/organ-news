@@ -16,7 +16,7 @@
 #define _DEBUG l
 using namespace std;
 typedef int (*fpfunc)(int argc, char * argv[]);
-const char * App_Arr[]={
+const char * App_Arr[] = {
     "tst",
     "fanyi",
     "skytrails",
@@ -24,30 +24,34 @@ const char * App_Arr[]={
     "startapp.1.0"
 };
 
-class CStartApp{
+class CStartApp {
 public:
-    CStartApp(){};
-    ~CStartApp(){};
-    int startup(int argc, char * argv[]){
+    CStartApp() {};
+    ~CStartApp() {};
+    int startup(int argc, char * argv[]) {
         char * login = getenv("HOME");
         string slib = login;
         slib += "/bin/libBusiness.so";
-        void * handle = dlopen(slib.c_str(),RTLD_LAZY);
-        if (NULL == handle){
+        void * handle = dlopen(slib.c_str(), RTLD_LAZY);
+
+        if (NULL == handle) {
             char * error = dlerror();
-            if (error != NULL){
+
+            if (error != NULL) {
                 printf("call dlopen failed,the errcode is %s\n", error);
             }
+
             cout << "call dlopen failed!" << endl;
-        }
-        else {
+
+        } else {
             string _fun = argv[0];
             _fun += "_main";
-            fpfunc func = (fpfunc)dlsym(handle,_fun.c_str());
-            if (NULL == func){
-                cout << "call "<< _fun.c_str() << " @ dlsym failed!" << endl;
-            }
-            else {
+            fpfunc func = (fpfunc)dlsym(handle, _fun.c_str());
+
+            if (NULL == func) {
+                cout << "call " << _fun.c_str() << " @ dlsym failed!" << endl;
+
+            } else {
                 //cout << "call "<< _fun.c_str() << " begin!";
                 func(argc, argv);
             }
@@ -55,7 +59,7 @@ public:
     }
 };
 
-int main(int argc, char * argv[]){
+int main(int argc, char * argv[]) {
     CStartApp excApp;
     excApp.startup(argc, argv);
     exit(0);

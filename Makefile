@@ -21,7 +21,8 @@ PUB_LIB = $(BIN)/libPubClass.so
 BUS_LIB = $(BIN)/libBusiness.so
 TARGET=$(BIN)/startapp.1.0
 TEST=$(BIN)/tst
-CFLAGS = -O2 -I$(HOME)/back_trunk/src/
+#CFLAGS = -O2 -I$(HOME)/back_trunk/src/
+CFLAGS = -O2 -I./src/
 export OBJSDIR=$(shell pwd)/objs
 #----------------------------test
 TEST_DIRS = src/test

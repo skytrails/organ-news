@@ -31,7 +31,7 @@ using namespace std;
 
 //初始化为守护进程
 int SNSProc::init(){
-    show_info();
+    show_info("");
     pid_t pid;
     pid = fork();
     if (pid < 0){
@@ -68,6 +68,7 @@ int SNSProc::init(){
     return 1;
 }
 int SNSProc::SNSProcess(){
+	show_info("");
     int listenfd, connfd;
     struct sockaddr_in cliaddr, servaddr;
     socklen_t clilen;
@@ -97,11 +98,15 @@ int SNSProc::SNSProcess(){
 }
 
 int SNSProc::_read(int sockfd){
+    show_info("SNSProc");
     ssize_t n;
     char buf[MAXLEN];
 again:
     while((n = read(sockfd, buf, MAXLINE)) > 0){
-        write(sockfd, buf, n);
+        int result = write(sockfd, buf, n);
+	if (result <= 0){
+		log_trace(1, "write zero");
+	}
 
         if (n < 0){
             printf("error");

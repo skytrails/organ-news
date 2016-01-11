@@ -13,7 +13,7 @@
 #include "../pubclass/Trace.h"
 
 int exp_main(int argc, char * argv[]){
-    show_info();
+    show_info("");
     CExpApp app;
     app.startup();
     
@@ -30,7 +30,7 @@ CExpApp::~CExpApp(){
 }
 
 int CExpApp::startup(){
-    show_info();
+    show_info("");
     int ret = init();
     if (0 == ret){
         log_trace(1, "init failed.");
@@ -40,6 +40,6 @@ int CExpApp::startup(){
 }
 
 int CExpApp::process(){
-    show_info();
+    show_info("");
     return 0;
 }

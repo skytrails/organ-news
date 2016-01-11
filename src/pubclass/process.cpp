@@ -21,7 +21,7 @@ CProcess::~CProcess(){
 }
 
 int CProcess::init(){
-    show_info();
+    show_info("");
     pid_t pid;
     pid = fork();
     if (pid < 0){
@@ -44,7 +44,7 @@ int CProcess::init(){
 }
 
 int CProcess::process(){
-    show_info();
+    show_info("");
     while(1);
     return 1;
 }

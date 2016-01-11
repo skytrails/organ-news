@@ -15,6 +15,7 @@
 
 #define BUFLEN 128
 int service_main(int argc, char * argv[]){
+	show_info("");
     struct addrinfo *ailist, *aip;
     struct addrinfo hint;
     int sockfd, err, n;
@@ -57,6 +58,7 @@ int service_main(int argc, char * argv[]){
 
 
 void service(int sockfd){
+	show_info("");
     int clfd;
     FILE *fp;
     char buf[BUFLEN];

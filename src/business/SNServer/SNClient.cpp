@@ -10,16 +10,22 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <iostream>
-#include "business/SNServer/SNClientProc.h"
+#include "SNClientProc.h"
+#include "../../pubclass/argOptionsMgr.h"
+#include "../../pubclass/Trace.h"
 
 using namespace std;
 
 extern "C" int SNClient_main(int argc, char * argv[]){
-    cout<< "fasd" << endl;
+	show_info("");
     if (argc != 2){
-      printf("usage:fault");
-      exit(0);
+	    log_trace(1, "usage:SNClient 127.0.0.1", 0);
+	    exit(0);
     }
+
+    CArgOptionsMgr argMgr(argc, argv);
+    const char * c_addr = argMgr.getOptionVal(1);
+    log_trace(1, "c_addr:%s", c_addr);
     SNCProc SncProc;
     SncProc.init();
     cout << "SNCProcess" << endl;
